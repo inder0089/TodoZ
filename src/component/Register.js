@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Register = () => {
   const initialValue = {
-    name: "",
+    username: "",
     password: "",
     email: "",
   };
@@ -13,21 +14,15 @@ const Register = () => {
     setFormData({ ...formData, [fieldname]: fieldvalue });
   };
 
-  const registerSubmit = (e) => {
-    e.preventDefault();
-    // console.log(formData);
-    setFormData(initialValue);
-  };
-
-  const { name, password, email } = formData;
+  const { username, password, email } = formData;
   //   console.log(formData.name);
   //   console.log(name);
 
   const formDataMap = [
     {
-      fieldname: "name",
-      fieldvalue: name,
-      placeholder: "name",
+      fieldname: "username",
+      fieldvalue: username,
+      placeholder: "username",
     },
     {
       fieldname: "password",
@@ -42,6 +37,17 @@ const Register = () => {
       type: "email",
     },
   ];
+
+  const registerSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(formData);
+
+    await axios.post(
+      `${process.env.REACT_APP_BASE_API_URL}auth/register`,
+      formData
+    );
+    setFormData(initialValue);
+  };
 
   return (
     <div>
