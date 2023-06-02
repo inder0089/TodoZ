@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const initialValue = {
-    username: "",
+    email: "",
     password: "",
   };
 
@@ -14,11 +17,34 @@ const Login = () => {
     setformData({ ...formData, [fieldname]: fieldvalue });
   };
 
-  const loginUserSubmit = (e) => {
+  const loginUserSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_API_URL}auth/login`,
+      formData
+    );
+
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
+      })
+    );
+    navigate("/");
+    console.log("response", response);
+
     setformData(initialValue);
   };
+
+  useEffect(() => {
+    const loginTokan = JSON.parse(localStorage.getItem("auth"));
+    if (loginTokan?.access_token) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>
@@ -27,9 +53,9 @@ const Login = () => {
           <form className="login-form" onSubmit={loginUserSubmit}>
             <input
               type="text"
-              placeholder="username"
-              name="username"
-              value={formData.username}
+              placeholder="Email"
+              name="email"
+              value={formData.email}
               onChange={handleFormData}
             />
             <input
