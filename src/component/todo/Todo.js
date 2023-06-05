@@ -1,30 +1,75 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid"; // Dynamic id library
 
 const Todo = () => {
+  // navigate
   const navigate = useNavigate();
+
+  // logout
   const logoutUser = () => {
     localStorage.removeItem("auth");
     navigate("/login");
   };
 
+  // step-1
   const initialValue = {
     inputTask: "",
     id: "",
+    isCompleted: false,
   };
 
+  // step-2
   const [todoData, setTodoData] = useState(initialValue);
   const [todoList, setTodoList] = useState([]);
+  const [filteredTodo, setFilterTodo] = useState([]);
+  const [filter, setFilter] = useState("all");
   const handleInputField = (e) => {
     const { name, value } = e.target;
-    setTodoData({ ...todoData, id: Date.now(), [name]: value });
+
+    setTodoData({ ...todoData, [name]: value });
   };
+
+  // step-3
 
   const addTodoItem = (e) => {
     e.preventDefault();
-    setTodoList([...todoList, todoData]);
+    setTodoList([...todoList, { ...todoData, id: uuidv4() }]);
+    setTodoList([...todoList, { ...todoData, id: Date.now() }]);
     setTodoData(initialValue);
+    console.log("todoList", todoList);
   };
+
+  console.log("todoList", todoList);
+  // step-4
+  // Delete
+  const deleteItem = (iD) => {
+    const _todoListupdated = todoList.filter((item) => {
+      return item.id !== iD;
+    });
+    setTodoList(_todoListupdated);
+  };
+
+  // step-5
+  // checkbox
+  const handleCheckBox = (e, id) => {
+    const filterSelected = e.target.checked;
+    // setFilter(filterSelected);
+    const _todoList = [...todoList];
+    const todoIndex = _todoList?.findIndex((listItem) => {
+      return listItem.id === id;
+    });
+    if (todoIndex !== -1) {
+      _todoList[todoIndex].isCompleted = !_todoList[todoIndex]?.isCompleted;
+      setTodoList(_todoList);
+    }
+
+    console.log("todoIndex", todoIndex);
+  };
+
+  // step-6
+  // handle filter
+
   return (
     <>
       <button className="btn btn-danger" onClick={logoutUser}>
@@ -55,22 +100,27 @@ const Todo = () => {
             </div>
           </form>
           <ul className="task-list p-0 py-3">
-            {todoList.map((name, index) => {
-              {
-                /* console.log("name", name); */
-              }
+            {todoList.map((item) => {
               return (
                 <>
                   <li
-                    key={index.id}
+                    key={item.id}
                     className="task-list-item"
                     v-for="task in tasks"
                   >
                     <label className="task-list-item-label">
-                      <input type="checkbox" />
-                      <span>{name.inputTask}</span>
+                      <input
+                        type="checkbox"
+                        checked={item?.isCompleted}
+                        onChange={(e) => handleCheckBox(e, item.id)}
+                      />
+                      <span>{item.inputTask}</span>
                     </label>
-                    <span className="delete-btn" title="Delete Task"></span>
+                    <span
+                      className="delete-btn"
+                      title="Delete Task"
+                      onClick={() => deleteItem(item.id)}
+                    ></span>
                   </li>
                 </>
               );
