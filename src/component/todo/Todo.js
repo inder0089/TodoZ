@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid"; // Dynamic id library
 
@@ -22,7 +22,7 @@ const Todo = () => {
   // step-2
   const [todoData, setTodoData] = useState(initialValue);
   const [todoList, setTodoList] = useState([]);
-  const [filteredTodo, setFilterTodo] = useState([]);
+  const [filteredList, setfilteredList] = useState([]);
   const [filter, setFilter] = useState("all");
   const handleInputField = (e) => {
     const { name, value } = e.target;
@@ -34,13 +34,13 @@ const Todo = () => {
 
   const addTodoItem = (e) => {
     e.preventDefault();
-    setTodoList([...todoList, { ...todoData, id: uuidv4() }]);
+    // setTodoList([...todoList, { ...todoData, id: uuidv4() }]);
     setTodoList([...todoList, { ...todoData, id: Date.now() }]);
     setTodoData(initialValue);
-    console.log("todoList", todoList);
+    // console.log("todoList", todoList);
   };
 
-  console.log("todoList", todoList);
+  //   console.log("todoList", todoList);
   // step-4
   // Delete
   const deleteItem = (iD) => {
@@ -64,11 +64,29 @@ const Todo = () => {
       setTodoList(_todoList);
     }
 
-    console.log("todoIndex", todoIndex);
+    // console.log("todoIndex", todoIndex);
   };
 
   // step-6
-  // handle filter
+  // handle filter select box
+
+  const handleSelectFilter = (e) => {
+    const filterSelected = e?.target?.value;
+    // console.log("filterSelected=", filterSelected);
+    setFilter(filterSelected);
+  };
+
+  useEffect(() => {
+    let filterSelectedList = [];
+    if (filter === "all") {
+      filterSelectedList = todoList;
+    } else if (filter === "completed") {
+      filterSelectedList = todoList.filter((item) => {
+        return item.isCompleted == true;
+      });
+    }
+    setfilteredList(filterSelectedList);
+  }, []);
 
   return (
     <>
@@ -80,7 +98,12 @@ const Todo = () => {
           <form onSubmit={addTodoItem}>
             <div className="d-flex justify-content-between">
               <h1 className="app-header">TO DO LIST</h1>
-              <select name="fiter" id="filter" className="filter">
+              <select
+                name="fiter"
+                id="filter"
+                className="filter"
+                onChange={(e) => handleSelectFilter(e)}
+              >
                 <option value="all">All</option>
                 <option value="completed">Completed</option>
                 <option value="notCompleted">Not completed</option>
@@ -100,7 +123,7 @@ const Todo = () => {
             </div>
           </form>
           <ul className="task-list p-0 py-3">
-            {todoList.map((item) => {
+            {filteredList.map((item) => {
               return (
                 <>
                   <li
