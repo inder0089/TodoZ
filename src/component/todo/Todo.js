@@ -24,9 +24,9 @@ const Todo = () => {
   const [todoList, setTodoList] = useState([]);
   const [filteredList, setfilteredList] = useState([]);
   const [filter, setFilter] = useState("all");
+
   const handleInputField = (e) => {
     const { name, value } = e.target;
-
     setTodoData({ ...todoData, [name]: value });
   };
 
@@ -53,7 +53,7 @@ const Todo = () => {
   // step-5
   // checkbox
   const handleCheckBox = (e, id) => {
-    const filterSelected = e.target.checked;
+    // const filterSelected = e.target.checked;
     // setFilter(filterSelected);
     const _todoList = [...todoList];
     const todoIndex = _todoList?.findIndex((listItem) => {
@@ -72,7 +72,7 @@ const Todo = () => {
 
   const handleSelectFilter = (e) => {
     const filterSelected = e?.target?.value;
-    // console.log("filterSelected=", filterSelected);
+    console.log("filterSelected=", filterSelected);
     setFilter(filterSelected);
   };
 
@@ -82,73 +82,84 @@ const Todo = () => {
       filterSelectedList = todoList;
     } else if (filter === "completed") {
       filterSelectedList = todoList.filter((item) => {
-        return item.isCompleted == true;
+        return item.isCompleted === true;
+      });
+    } else if (filter === "notCompleted") {
+      filterSelectedList = todoList.filter((item) => {
+        return item.isCompleted === false;
       });
     }
+    console.log("filterSelectedList", filterSelectedList);
     setfilteredList(filterSelectedList);
-  }, []);
+  }, [todoList, filter]);
 
   return (
     <>
-      <button className="btn btn-danger" onClick={logoutUser}>
-        Logout
-      </button>
-      <div className="todo-body">
-        <div className="app-container" id="taskList">
-          <form onSubmit={addTodoItem}>
-            <div className="d-flex justify-content-between">
-              <h1 className="app-header">TO DO LIST</h1>
-              <select
-                name="fiter"
-                id="filter"
-                className="filter"
-                onChange={(e) => handleSelectFilter(e)}
-              >
-                <option value="all">All</option>
-                <option value="completed">Completed</option>
-                <option value="notCompleted">Not completed</option>
-              </select>
-            </div>
-            <div className="add-task">
-              <input
-                type="text"
-                autoComplete="off"
-                placeholder="Add New Task"
-                className="task-input"
-                name="inputTask"
-                value={todoData.inputTask}
-                onChange={handleInputField}
-              />
-              <button type="submit" className="submit-task" title="Add Task" />
-            </div>
-          </form>
-          <ul className="task-list p-0 py-3">
-            {filteredList.map((item) => {
-              return (
-                <>
-                  <li
-                    key={item.id}
-                    className="task-list-item"
-                    v-for="task in tasks"
-                  >
-                    <label className="task-list-item-label">
-                      <input
-                        type="checkbox"
-                        checked={item?.isCompleted}
-                        onChange={(e) => handleCheckBox(e, item.id)}
-                      />
-                      <span>{item.inputTask}</span>
-                    </label>
-                    <span
-                      className="delete-btn"
-                      title="Delete Task"
-                      onClick={() => deleteItem(item.id)}
-                    ></span>
-                  </li>
-                </>
-              );
-            })}
-          </ul>
+      <div className="home">
+        <button className="btn btn-danger logout" onClick={logoutUser}>
+          Logout
+        </button>
+        <div className="todo-body">
+          <div className="app-container" id="taskList">
+            <form onSubmit={addTodoItem}>
+              <div className="d-flex justify-content-between">
+                <h1 className="app-header">TO DO LIST</h1>
+                <select
+                  name="fiter"
+                  id="filter"
+                  className="filter"
+                  onChange={(e) => handleSelectFilter(e)}
+                >
+                  <option value="all">All</option>
+                  <option value="completed">Completed</option>
+                  <option value="notCompleted">Not completed</option>
+                </select>
+              </div>
+              <div className="add-task">
+                <input
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Add New Task"
+                  className="task-input"
+                  name="inputTask"
+                  value={todoData.inputTask}
+                  onChange={handleInputField}
+                />
+                <button
+                  type="submit"
+                  className="submit-task"
+                  title="Add Task"
+                />
+              </div>
+            </form>
+            <ul className="task-list p-0 py-3">
+              {filteredList.map((item) => {
+                return (
+                  <>
+                    <li
+                      key={item.id}
+                      className="task-list-item"
+                      v-for="task in tasks"
+                    >
+                      <label className="task-list-item-label">
+                        <input
+                          type="checkbox"
+                          checked={item?.isCompleted}
+                          onChange={(e) => handleCheckBox(e, item.id)}
+                        />
+                        <span>{item.inputTask}</span>
+                      </label>
+                      <span
+                        className="delete-btn"
+                        title="Delete Task"
+                        onClick={() => deleteItem(item.id)}
+                      ></span>
+                    </li>
+                  </>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </>

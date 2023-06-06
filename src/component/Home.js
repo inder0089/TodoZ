@@ -4,7 +4,6 @@ import Todo from "./todo/Todo";
 const Home = () => {
   return (
     <div>
-      <h1>Home</h1>
       <Todo />
     </div>
   );

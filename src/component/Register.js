@@ -54,7 +54,7 @@ const Register = () => {
       <div className="login-page">
         <div className="form">
           <form className="register-form" onSubmit={registerSubmit}>
-            {formDataMap?.map((item) => {
+            {formDataMap?.map((item, index) => {
               const { fieldname, fieldvalue, placeholder, type } = item;
               {
                 /* console.log(fieldname, fieldvalue, placeholder, type); */
@@ -66,6 +66,7 @@ const Register = () => {
                   name={fieldname}
                   value={fieldvalue}
                   onChange={handleFromData}
+                  key={index}
                 />
               );
             })}
