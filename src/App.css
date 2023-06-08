@@ -276,14 +276,14 @@ ul {
   cursor: pointer;
 }
 
-@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+/* @supports (-webkit-appearance: none) or (-moz-appearance: none) {
 
   input[type='checkbox'],
   input[type='radio'] {
     -webkit-appearance: none;
     -moz-appearance: none;
   }
-}
+} */
 
 
 .filter{
