@@ -64,7 +64,7 @@ const Todo = () => {
       setTodoList(_todoList);
     }
 
-    // console.log("todoIndex", todoIndex);
+    console.log("todoIndex", todoIndex);
   };
 
   // step-6

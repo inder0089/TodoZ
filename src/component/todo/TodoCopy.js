@@ -27,9 +27,11 @@ const TodoCopy = () => {
     // console.log("todoList", todoList);
     setInputData(initialValue);
   };
-  console.log("todoList", todoList);
+  //   console.log("todoList", todoList);
 
-  console.log("inputData", inputData);
+  //   console.log("inputData", inputData);
+
+  //   const { day, todoinput } = inputData;
 
   const fieldList = [
     {
@@ -54,7 +56,7 @@ const TodoCopy = () => {
   };
 
   const filterSelect = (e) => {
-    const selectvalue = e?.target.value;
+    const selectvalue = e?.target?.value;
     // console.log("selectvalue", selectvalue);
     setSelectedFilter(selectvalue);
   };
@@ -72,24 +74,59 @@ const TodoCopy = () => {
         ?.isCompleted;
       setTodoList(checkedItem);
     }
-    console.log("checkedItemIndex", checkedItemIndex);
+    // console.log("checkedItemIndex", checkedItemIndex);
     console.log("checkedItem", checkedItem);
   };
 
   useEffect(() => {
     let filtereditem = [];
     if (selectedfilter === "all") {
+      filtereditem = todoList;
+    } else if (selectedfilter === "completed") {
+      filtereditem = todoList.filter((item) => {
+        return item.isCompleted === true;
+      });
+    } else if (selectedfilter === "notcompleted") {
+      filtereditem = todoList.filter((item) => {
+        return item.isCompleted === false;
+      });
     }
-  }, []);
+    setfilteredList(filtereditem);
+  }, [todoList, selectedfilter]);
+
+  // search========================
+  const [searchText, setSearchText] = useState("");
+  const searchButton = () => {
+    const searchDay = searchText.toLowerCase();
+    if (searchDay.length > 2) {
+      const copyfilteredList = [...todoList];
+      //   console.log("copyfilteredList", copyfilteredList);
+      const searchList = copyfilteredList.filter((item) => {
+        const itemDay = item.day.toLowerCase();
+        return itemDay === searchDay;
+      });
+      console.log("searchList", searchList);
+      setfilteredList(searchList);
+    } else {
+      setfilteredList(todoList);
+    }
+  };
+  useEffect(() => {
+    searchButton();
+  }, [searchText]);
+
   return (
     <div style={{ padding: "50px" }}>
       <form onSubmit={submitTodoList}>
         <div className="inputfields">
-          {fieldList.map((item) => {
-            console.log("item", item);
+          {fieldList.map((item, index) => {
+            {
+              /* console.log("item", item); */
+            }
             const { type, placeholder, name, value } = item;
             return (
               <input
+                key={index}
                 type={type}
                 placeholder={placeholder}
                 name={name}
@@ -112,9 +149,7 @@ const TodoCopy = () => {
             value={inputData.todoinput}
             onChange={handleInputField}
           /> */}
-          <button type="submit" onChange={addTodoList()}>
-            ADD
-          </button>
+          <button type="submit">ADD</button>
 
           <select onChange={(e) => filterSelect(e)}>
             <option value="all">All</option>
@@ -123,6 +158,18 @@ const TodoCopy = () => {
           </select>
         </div>
       </form>
+      {todoList.length > 0 && (
+        <div>
+          <input
+            type="text"
+            value={searchText}
+            name="search"
+            placeholder="search"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button onClick={searchButton}>search</button>
+        </div>
+      )}
       <table>
         <tbody>
           <tr>
@@ -132,7 +179,7 @@ const TodoCopy = () => {
             <th>delete</th>
             <th>edit</th>
           </tr>
-          {todoList.map((item) => {
+          {filteredList.map((item) => {
             return (
               <tr key={item.id}>
                 <td>
