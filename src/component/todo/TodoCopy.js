@@ -55,11 +55,15 @@ const TodoCopy = () => {
     setTodoList(_todoList);
   };
 
+  // select====================================
+
   const filterSelect = (e) => {
     const selectvalue = e?.target?.value;
     // console.log("selectvalue", selectvalue);
     setSelectedFilter(selectvalue);
   };
+
+  // checkbox =========================
 
   const handlecheckBox = (e, iD) => {
     // const checkBoxValue = e.target.checked;
@@ -115,9 +119,33 @@ const TodoCopy = () => {
     searchButton();
   }, [searchText]);
 
+  // edit==================================
+
+  const [editItemIndex, setEditItemIndex] = useState("");
+
+  const editItem = (item) => {
+    // console.log("item", item);
+    const _item = { ...item };
+    setInputData(_item);
+    setEditItemIndex(item.id);
+  };
+
+  const editItemUpdate = (e) => {
+    e.preventDefault();
+    const editItemList = [...todoList];
+
+    const _editItemIndex = todoList.findIndex((it) => it.id === editItemIndex);
+
+    editItemList[_editItemIndex] = inputData;
+
+    setTodoList(editItemList);
+    setInputData(initialValue);
+    setEditItemIndex("");
+  };
+
   return (
     <div style={{ padding: "50px" }}>
-      <form onSubmit={submitTodoList}>
+      <form onSubmit={editItemIndex ? editItemUpdate : submitTodoList}>
         <div className="inputfields">
           {fieldList.map((item, index) => {
             {
@@ -149,7 +177,9 @@ const TodoCopy = () => {
             value={inputData.todoinput}
             onChange={handleInputField}
           /> */}
-          <button type="submit">ADD</button>
+          <button type="submit">
+            {inputData?.isUpdate ? "Update" : "ADD"}{" "}
+          </button>
 
           <select onChange={(e) => filterSelect(e)}>
             <option value="all">All</option>
@@ -158,6 +188,7 @@ const TodoCopy = () => {
           </select>
         </div>
       </form>
+      {/* <button onClick={editItemUpdate}>Update</button> */}
       {todoList.length > 0 && (
         <div>
           <input
@@ -195,7 +226,7 @@ const TodoCopy = () => {
                   <button onClick={() => deleteItem(item.id)}>Delete</button>
                 </td>
                 <td>
-                  <button>Edit</button>
+                  <button onClick={() => editItem(item)}>Edit</button>
                 </td>
               </tr>
             );
