@@ -106,8 +106,10 @@ const TodoCopy = () => {
       const copyfilteredList = [...todoList];
       //   console.log("copyfilteredList", copyfilteredList);
       const searchList = copyfilteredList.filter((item) => {
-        const itemDay = item.day.toLowerCase();
-        return itemDay === searchDay;
+        return (
+          item?.day?.toLowerCase()?.includes(searchDay) ||
+          item?.todoinput?.toLowerCase()?.includes(searchDay)
+        );
       });
       console.log("searchList", searchList);
       setfilteredList(searchList);
@@ -177,9 +179,7 @@ const TodoCopy = () => {
             value={inputData.todoinput}
             onChange={handleInputField}
           /> */}
-          <button type="submit">
-            {inputData?.isUpdate ? "Update" : "ADD"}{" "}
-          </button>
+          <button type="submit">{editItemIndex ? "Update" : "ADD"} </button>
 
           <select onChange={(e) => filterSelect(e)}>
             <option value="all">All</option>
@@ -195,6 +195,7 @@ const TodoCopy = () => {
             type="text"
             value={searchText}
             name="search"
+            autocomplete="false"
             placeholder="search"
             onChange={(e) => setSearchText(e.target.value)}
           />

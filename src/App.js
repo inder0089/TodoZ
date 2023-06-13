@@ -6,6 +6,8 @@ import Register from "./component/Register";
 import { useEffect, useState } from "react";
 import Home from "./component/Home";
 import TodoCopy from "./component/todo/TodoCopy";
+import Timer from "./component/Timer";
+import Counter from "./component/Counter";
 
 function App() {
   // const [isToken, setIstoken] = useState(false);
@@ -28,6 +30,8 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="copy" element={<TodoCopy />} />
+        <Route path="timer" element={<Timer />} />
+        <Route path="count" element={<Counter />} />
       </Routes>
     </>
   );
