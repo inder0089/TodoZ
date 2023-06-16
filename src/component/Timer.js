@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 const Timer = () => {
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(5);
+  const [seconds, setSeconds] = useState(59);
   const [startTimer, setStartTimer] = useState(false);
   let timer;
   useEffect(() => {
@@ -13,23 +13,23 @@ const Timer = () => {
     return () => {
       clearInterval(timer);
     };
-  }, [startTimer, seconds]);
+  });
 
   const handleTime = () => {
     timer = setInterval(() => {
-      setSeconds(seconds + 1);
-    }, 1000);
+      setSeconds(seconds - 1);
+    }, 100);
 
-    if (seconds === 59) {
-      setMinutes(minutes + 1);
-      setSeconds(0);
-    } else if (minutes === 1) {
-      stop();
+    if (seconds === 1) {
+      setMinutes(minutes - 1);
+      setSeconds(59);
+    } else if (minutes === 0 && seconds === 59) {
+      reset();
     }
   };
   const reset = () => {
-    setMinutes(0);
-    setSeconds(0);
+    setMinutes(5);
+    setSeconds(59);
     setStartTimer(false);
   };
 

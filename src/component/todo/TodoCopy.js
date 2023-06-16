@@ -145,6 +145,14 @@ const TodoCopy = () => {
     setEditItemIndex("");
   };
 
+  // radio
+
+  const [radioCheck, setRadioCheck] = useState(true);
+
+  const handleRadioCheck = (e) => {
+    setRadioCheck(e.target.value === "show");
+  };
+
   return (
     <div style={{ padding: "50px" }}>
       <form onSubmit={editItemIndex ? editItemUpdate : submitTodoList}>
@@ -188,6 +196,27 @@ const TodoCopy = () => {
           </select>
         </div>
       </form>
+
+      <div className="radio">
+        <label>show</label>
+        <input
+          type="radio"
+          name="show"
+          value="show"
+          checked={radioCheck}
+          onChange={handleRadioCheck}
+        />
+      </div>
+      <div className="radio">
+        <label>hide</label>
+        <input
+          type="radio"
+          name="show"
+          value="hide"
+          checked={radioCheck === false ? true : false}
+          onChange={handleRadioCheck}
+        />
+      </div>
       {/* <button onClick={editItemUpdate}>Update</button> */}
       {todoList.length > 0 && (
         <div>
@@ -195,45 +224,50 @@ const TodoCopy = () => {
             type="text"
             value={searchText}
             name="search"
-            autocomplete="false"
+            autoComplete="false"
             placeholder="search"
             onChange={(e) => setSearchText(e.target.value)}
           />
           <button onClick={searchButton}>search</button>
         </div>
       )}
-      <table>
-        <tbody>
-          <tr>
-            <th>checkbox</th>
-            <th>Day</th>
-            <th>name</th>
-            <th>delete</th>
-            <th>edit</th>
-          </tr>
-          {filteredList.map((item) => {
-            return (
-              <tr key={item.id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={item?.isCompleted}
-                    onChange={(e) => handlecheckBox(e, item.id)}
-                  />
-                </td>
-                <td>{item.day}</td>
-                <td>{item.todoinput}</td>
-                <td>
-                  <button onClick={() => deleteItem(item.id)}>Delete</button>
-                </td>
-                <td>
-                  <button onClick={() => editItem(item)}>Edit</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+
+      {radioCheck === true ? (
+        <table>
+          <tbody>
+            <tr>
+              <th>checkbox</th>
+              <th>Day</th>
+              <th>name</th>
+              <th>delete</th>
+              <th>edit</th>
+            </tr>
+            {filteredList.map((item) => {
+              return (
+                <tr key={item.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={item?.isCompleted}
+                      onChange={(e) => handlecheckBox(e, item.id)}
+                    />
+                  </td>
+                  <td>{item.day}</td>
+                  <td>{item.todoinput}</td>
+                  <td>
+                    <button onClick={() => deleteItem(item.id)}>Delete</button>
+                  </td>
+                  <td>
+                    <button onClick={() => editItem(item)}>Edit</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        "table hide"
+      )}
     </div>
   );
 };
