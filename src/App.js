@@ -9,6 +9,7 @@ import TodoCopy from "./component/todo/TodoCopy";
 import Timer from "./component/Timer";
 import Counter from "./component/Counter";
 import StopTimer from "./component/StopTimer";
+import Toodo from "./component/todo/Toodo";
 
 function App() {
   // const [isToken, setIstoken] = useState(false);
@@ -34,6 +35,7 @@ function App() {
         <Route path="timer" element={<Timer />} />
         <Route path="count" element={<Counter />} />
         <Route path="stopwatch" element={<StopTimer />} />
+        <Route path="toodo" element={<Toodo />} />
       </Routes>
     </>
   );
