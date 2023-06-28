@@ -15,26 +15,31 @@ const Toodo = () => {
     setinputData({ ...inputDate, [name]: value });
   };
 
-  const addTodo = () => {};
+  const addTodo = (e) => {
+    e.preventDefault();
+    setTodoList([...todoList, { id: Date.now(), ...inputDate }]);
+    setinputData(initialValue);
+  };
+  console.log("todoList", todoList);
 
   return (
     <div>
       <h1>texala.net</h1>
-      <form onSubmit={addTodo}></form>
-      <input
-        type="text"
-        value={inputDate.firstName}
-        name="firstName"
-        onChange={todoInput}
-      />
-      <input
-        type="text"
-        value={inputDate.lastName}
-        name="lastName"
-        onChange={todoInput}
-      />
-      <button>Add</button>
-
+      <form onSubmit={addTodo}>
+        <input
+          type="text"
+          value={inputDate.firstName}
+          name="firstName"
+          onChange={todoInput}
+        />
+        <input
+          type="text"
+          value={inputDate.lastName}
+          name="lastName"
+          onChange={todoInput}
+        />
+        <button>Add</button>
+      </form>
       <table>
         <tbody>
           <tr>
