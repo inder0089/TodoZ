@@ -35,6 +35,13 @@ export const TodoAPI = () => {
 
     setInputData(initialValue);
   };
+  const  deleteItem = async(iD) => {
+    const deleteID = iD;
+    await privateAPI.delete(`/todos/${deleteID}`);
+    await getTodo()
+  
+
+  }
 
   return (
     <div>
@@ -58,6 +65,8 @@ export const TodoAPI = () => {
               return (
                 <tr key={item?._id}>
                   <td>{item?.title}</td>
+                  <td><button onClick={() => deleteItem(item?._id)}>delete</button></td>
+                
                 </tr>
               );
             })
