@@ -13,7 +13,7 @@ const StopTimer = () => {
     }
 
     return () => {
-      clearInterval(timer);
+      clearInterval(timer); //component will unmount
     };
   });
 

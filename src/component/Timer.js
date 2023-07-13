@@ -4,7 +4,9 @@ const Timer = () => {
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(59);
   const [startTimer, setStartTimer] = useState(false);
+
   let timer;
+
   useEffect(() => {
     if (startTimer) {
       handleTime();
@@ -18,7 +20,7 @@ const Timer = () => {
   const handleTime = () => {
     timer = setInterval(() => {
       setSeconds(seconds - 1);
-    }, 100);
+    }, 1000);
 
     if (seconds === 1) {
       setMinutes(minutes - 1);

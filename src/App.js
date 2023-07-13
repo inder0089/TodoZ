@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     const loginToken = JSON.parse(localStorage.getItem("auth"));
     console.log("loginTokan", loginToken);
-    if (!loginToken?.access_token) {
+    if (loginToken?.access_token) {
       navigate("/login");
       // setIstoken(false);
     } else {
@@ -31,15 +31,15 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
-        <Route path='copy' element={<TodoCopy />} />
-        <Route path='timer' element={<Timer />} />
-        <Route path='count' element={<Counter />} />
-        <Route path='stopwatch' element={<StopTimer />} />
-        <Route path='toodo' element={<Toodo />} />
-        <Route path='apitodo' element={<TodoAPI />} />
+        <Route path="/" element={<Home />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="copy" element={<TodoCopy />} />
+        <Route path="timer" element={<Timer />} />
+        <Route path="count" element={<Counter />} />
+        <Route path="stopwatch" element={<StopTimer />} />
+        <Route path="toodo" element={<Toodo />} />
+        <Route path="apitodo" element={<TodoAPI />} />
       </Routes>
     </>
   );

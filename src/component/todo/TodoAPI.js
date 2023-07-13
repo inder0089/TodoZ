@@ -30,23 +30,32 @@ export const TodoAPI = () => {
 
   const addlist = async (e) => {
     e.preventDefault();
-    await privateAPI.post("/todos", inputData); // add todo to DB
+    privateAPI
+      .post("/todos", inputData)
+      .then(async (response) => {
+        await getTodo();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      }); // add todo to DB
     await getTodo(); // get todo from api
 
     setInputData(initialValue);
   };
 
+  const deleteItem = () => {};
+
   return (
     <div>
       <form onSubmit={addlist}>
         <input
-          type='text'
-          name='title'
+          type="text"
+          name="title"
           value={inputData.title}
           onChange={handleInput}
         />
 
-        <button type='submit'>Add</button>
+        <button type="submit">Add</button>
       </form>
       <table>
         <tbody>
@@ -58,6 +67,9 @@ export const TodoAPI = () => {
               return (
                 <tr key={item?._id}>
                   <td>{item?.title}</td>
+                  <td>
+                    <button onClick={() => deleteItem(item._id)}>Delete</button>
+                  </td>
                 </tr>
               );
             })
