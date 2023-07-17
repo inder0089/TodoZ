@@ -13,6 +13,8 @@ import Counter from "./component/Counter";
 import StopTimer from "./component/StopTimer";
 import Toodo from "./component/todo/Toodo";
 import { TodoAPI } from "./component/todo/TodoAPI";
+import Countwithhook from "./component/todo/Countwithhook";
+import Commontest from "./component/todo/Commontest";
 
 function App() {
   // const [isToken, setIstoken] = useState(false);
@@ -40,6 +42,8 @@ function App() {
         <Route path="stopwatch" element={<StopTimer />} />
         <Route path="toodo" element={<Toodo />} />
         <Route path="apitodo" element={<TodoAPI />} />
+        <Route path="counthook" element={<Countwithhook />} />
+        <Route path="commontest" element={<Commontest />} />
       </Routes>
     </>
   );
