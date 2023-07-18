@@ -23,8 +23,12 @@ const Countwithhook = () => {
       <h1>Count</h1>
       <h2>{count}</h2>
       <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
-      <button onClick={reset}>Reset</button>
+      <button onClick={decrement} disabled={count === 0}>
+        Decrement
+      </button>
+      <button onClick={reset} disabled={count === 0}>
+        Reset
+      </button>
     </div>
   );
 };

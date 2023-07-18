@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const loginToken = JSON.parse(localStorage.getItem("auth"));
     console.log("loginTokan", loginToken);
-    if (loginToken?.access_token) {
+    if (!loginToken?.access_token) {
       navigate("/login");
       // setIstoken(false);
     } else {

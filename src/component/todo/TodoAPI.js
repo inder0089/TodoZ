@@ -18,7 +18,6 @@ export const TodoAPI = () => {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-
     setInputData({ ...inputData, [name]: value });
   };
 
@@ -26,6 +25,7 @@ export const TodoAPI = () => {
     const response = await privateAPI.get("/todos");
     console.log("response", response);
     setFromData(response?.data?.todos?.reverse());
+    return response;
   }
 
   const addlist = async (e) => {
@@ -38,13 +38,19 @@ export const TodoAPI = () => {
       .catch((error) => {
         console.log("error", error);
       }); // add todo to DB
-    await getTodo(); // get todo from api
+    // await getTodo(); // get todo from api
 
     setInputData(initialValue);
   };
   const deleteItem = async (iD) => {
     const deleteID = iD;
     await privateAPI.delete(`/todos/${deleteID}`);
+    await getTodo();
+  };
+
+  const handleCheckbox = async (e, iD) => {
+    const checklistID = iD;
+    await privateAPI.get(`/isCompleted/${checklistID}`);
     await getTodo();
   };
 
@@ -69,6 +75,14 @@ export const TodoAPI = () => {
             formData?.map((item) => {
               return (
                 <tr key={item?._id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      name="complete"
+                      checked={item?.isCompleted}
+                      onClick={(e) => handleCheckbox(e, item?._id)}
+                    />
+                  </td>
                   <td>{item?.title}</td>
                   <td>
                     <button onClick={() => deleteItem(item?._id)}>
@@ -79,7 +93,7 @@ export const TodoAPI = () => {
               );
             })
           ) : (
-            <h2> jaldi vaha se hatooooooooooo. </h2>
+            <h2> NO DATA </h2>
           )}
         </tbody>
       </table>
