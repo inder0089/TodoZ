@@ -15,20 +15,21 @@ import Toodo from "./component/todo/Toodo";
 import { TodoAPI } from "./component/todo/TodoAPI";
 import Countwithhook from "./component/todo/Countwithhook";
 import Commontest from "./component/todo/Commontest";
+import CountRTK from "./component/CountRTK";
 
 function App() {
   // const [isToken, setIstoken] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    const loginToken = JSON.parse(localStorage.getItem("auth"));
-    console.log("loginTokan", loginToken);
-    if (!loginToken?.access_token) {
-      navigate("/login");
-      // setIstoken(false);
-    } else {
-      // setIstoken(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const loginToken = JSON.parse(localStorage.getItem("auth"));
+  //   console.log("loginTokan", loginToken);
+  //   if (!loginToken?.access_token) {
+  //     navigate("/login");
+  //     // setIstoken(false);
+  //   } else {
+  //     // setIstoken(true);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -44,6 +45,7 @@ function App() {
         <Route path="apitodo" element={<TodoAPI />} />
         <Route path="counthook" element={<Countwithhook />} />
         <Route path="commontest" element={<Commontest />} />
+        <Route path="countRTK" element={<CountRTK />} />
       </Routes>
     </>
   );
